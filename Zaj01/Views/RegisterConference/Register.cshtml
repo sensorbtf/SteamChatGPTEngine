@@ -1,0 +1,90 @@
+﻿@model Zaj01.ViewModels.ConferenceUserViewModel
+@using Zaj01.ViewModels;
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Rejestracja na konferencje</h1>
+
+<h4>Uzupełnij pola</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Register" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConferenceType" class="control-label"></label>
+                <select asp-for="ConferenceType" asp-items="Html.GetEnumSelectList<ConferenceType>()" class="form-control">
+                    <option selected="selected" value="">Proszę wybrać</option>
+                </select>
+                <span asp-validation-for="ConferenceType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div aria-live="polite" aria-atomic="true" class="bg-dark bd-example-toasts">
+    <div class="toast-container position-absolute p-3 top-0 end-0" id="toastPlacement">
+        <div class="toast">
+            <div class="toast-header">
+                <img src="..." class="rounded me-2" alt="...">
+                <strong class="me-auto">Information</strong>
+                <small>just added</small>
+            </div>
+            <div class="toast-body">
+                User registered, plase see list below.
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("Index", ViewBag.RegisteredUsers as IList<ConferenceUserViewModel>)
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+
+    <script>
+
+        $(function () {
+            var userAdeed = @Json.Serialize((TempData["userAdded"] ??= false));
+
+            if (userAdeed) {
+                var toastEl = document.getElementsByClassName('toast')[0];
+                var toast = new bootstrap.Toast(toastEl);
+                toast.show();
+                $("table tr:last").effect('highlight', {}, 3000);
+            }
+        });
+
+    </script>
+}

@@ -1,0 +1,8 @@
+﻿@model IList<RssItem>
+
+@foreach (var rssItem in Model)
+{
+    <h3>@rssItem.Title</h3>
+    <p>@rssItem.PubDate</p>
+    <p>@Html.Raw(rssItem.Desc)</p>
+}

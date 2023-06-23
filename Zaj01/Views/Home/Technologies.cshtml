@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Technology>
+
+<ul>
+    @foreach (var tech in Model)
+    {
+        <li>
+            <p>@tech.Name</p>
+            <span>@tech.WhenToLearn</span>
+        </li>
+
+    }
+</ul>
